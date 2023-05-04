@@ -6,22 +6,36 @@ import {
   Put,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from './users.service';
+import { AuthGuard } from '@nestjs/passport';
+import { AuthService } from '../auth/auth.service';
 @Controller('users')
 export class UsersController {
-  constructor(public usersService: UserService) {}
+  constructor(
+    public usersService: UserService,
+    public AuthService: AuthService,
+  ) {}
   @Post('register')
   create(@Body() createUserDto: any): Promise<any> {
-    if (
-      createUserDto.email == null ||
-      createUserDto.password == null ||
-      createUserDto.firstName == null ||
-      createUserDto.lastName == null
-    ) {
-      throw new Error('Please fill all the fields');
-    }
+    // if (
+    //   createUserDto.email == null ||
+    //   createUserDto.password == null ||
+    //   createUserDto.firstName == null ||
+    //   createUserDto.lastName == null
+    // ) {
+    //   throw new Error('Please fill all the fields');
+    // }
+
     return this.usersService.create(createUserDto);
+  }
+
+  // @UseGuards(AuthGuard('local'))
+  @Post('login')
+  async login(@Body() user: any) {
+    console.log("user")
+    return this.AuthService.loginWithCredentials(user);
   }
 
   @Get('allusers')

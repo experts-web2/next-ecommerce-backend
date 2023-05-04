@@ -23,6 +23,12 @@ export class OrdersController {
     return this.orderService.findAll();
   }
 
+  // get orders by user id
+  @Get('user/:id')
+  async findOrdersByUserId(@Param('id') id: string): Promise<any[]> {
+    return this.orderService.findOrdersByUserId(id);
+  }
+
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<any> {
     return this.orderService.findOne(id);

@@ -1,13 +1,15 @@
+import Joi from 'joi';
 export class UserDto {
   email: string;
   password: string;
 }
 
+
 export class createUserDto{
-    firstName?: string;
-    lastName?: string;
-    email?: string;
-    password?: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
     role?: string;
 }
 

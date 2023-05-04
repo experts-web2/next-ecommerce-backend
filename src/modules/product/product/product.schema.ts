@@ -6,25 +6,34 @@ export type ProductDocument = Product & Document;
 @Schema({ timestamps: true })
 export class Product {
   @Prop({ required: true })
-  name: string;
+  title: string;
+
+  @Prop({ required: true })
+  handle: string;
 
   @Prop({ required: true })
   description: string;
 
   @Prop({ required: true })
+  vendor: string;
+
+  @Prop({ required: true })
+  type: string;
+
+  @Prop({ type: [String], required: true })
+  tags: string[];
+
+  @Prop({ required: true })
   price: number;
 
   @Prop({ required: true })
-  category: string;
+  price_min: number;
 
-  @Prop()
-  image: string;
+  @Prop({ required: true })
+  available: boolean;
 
-  @Prop({ default: Date.now })
-  created_at: Date;
-
-  @Prop({ default: Date.now })
-  updated_at: Date;
+  @Prop({ required: true })
+  price_varies: boolean;
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);
