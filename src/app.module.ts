@@ -12,6 +12,7 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { VariantsModule } from './modules/variants/variants.module';
 import { ProductcolorModule } from './modules/productcolor/productcolor.module';
+import { MediaModule } from './modules/media/media.module';
 @Module({
   imports: [
     UsersModule,
@@ -19,6 +20,7 @@ import { ProductcolorModule } from './modules/productcolor/productcolor.module';
     ProductModule,
     OrdersModule,
     RolesModule,
+    MediaModule,
     VariantsModule,
     ProductcolorModule,
     JwtModule,

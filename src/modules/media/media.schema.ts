@@ -1,14 +1,14 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, SchemaTypes } from 'mongoose';
 
 export type MediaDocument = Media & Document;
 
 @Schema({ timestamps: true })
 export class Media {
-  @Prop({ type: String, required: true })
+  @Prop({ type: SchemaTypes.ObjectId, required: true })
   product_id: string;
 
-  @Prop({ type: String })
+  @Prop({ type: SchemaTypes.ObjectId, required: true })
   variant_id: string;
 
   @Prop({ type: Boolean, default: false })
@@ -19,6 +19,9 @@ export class Media {
 
   @Prop({ type: String })
   alt: string;
+
+  @Prop({ type: Array })
+  images: string[];
 }
 
 export const MediaSchema = SchemaFactory.createForClass(Media);

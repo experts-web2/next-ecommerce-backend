@@ -11,15 +11,15 @@ export class ProductcolorService {
     private productColorModel: Model<Color>,
   ) {}
 
-  async findAll(): Promise<ProductColorDto[]> {
+  async findAll(): Promise<any[]> {
     return this.productColorModel.find().exec();
   }
 
-  async findById(id: string): Promise<ProductColorDto> {
+  async findById(id: string): Promise<any> {
     return this.productColorModel.findById(id).exec();
   }
 
-  async create(createProductColorDto: ProductColorDto): Promise<ProductColorDto> {
+  async create(createProductColorDto: any): Promise<any> {
     const createdProductColor = new this.productColorModel(
       createProductColorDto,
     );
@@ -28,8 +28,8 @@ export class ProductcolorService {
 
   async update(
     id: string,
-    updateProductColorDto: ProductColorDto,
-  ): Promise<ProductColorDto> {
+    updateProductColorDto: any,
+  ): Promise<any> {
     return this.productColorModel
       .findByIdAndUpdate(id, updateProductColorDto, { new: true })
       .exec();

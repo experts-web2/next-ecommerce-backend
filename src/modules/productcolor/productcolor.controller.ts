@@ -9,17 +9,17 @@ export class ProductcolorController {
     constructor(@InjectModel(Color.name) private productColorModel: Model<Color>) {}
 
     @Get()
-    async findAll(): Promise<ProductColor[]> {
+    async findAll(): Promise<any[]> {
       return this.productColorModel.find().exec();
     }
   
     @Get(':id')
-    async findById(@Param('id') id: string): Promise<ProductColor> {
+    async findById(@Param('id') id: string): Promise<any> {
       return this.productColorModel.findById(id).exec();
     }
   
     @Post()
-    async create(@Body() createProductColorDto: ProductColorDto): Promise<ProductColor> {
+    async create(@Body() createProductColorDto: any): Promise<any> {
       const createdProductColor = new this.productColorModel(createProductColorDto);
       return createdProductColor.save();
     }
@@ -27,7 +27,7 @@ export class ProductcolorController {
     @Put(':id')
     async update(
       @Param('id') id: string,
-      @Body() updateProductColorDto: ProductColorDto
+      @Body() updateProductColorDto: any
     ): Promise<ProductColor> {
       return this.productColorModel.findByIdAndUpdate(id, updateProductColorDto, { new: true }).exec();
     }

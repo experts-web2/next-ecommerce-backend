@@ -10,12 +10,12 @@ export class MediaService {
         @InjectModel(Media.name) private mediaModel: Model<MediaDocument>,
       ) {}
 
-      async create(createMediaDto: MediaDto): Promise<Media> {
+      async create(createMediaDto: any): Promise<any> {
         const createdMedia = new this.mediaModel(createMediaDto);
         return createdMedia.save();
       }
     
-      async findAll(): Promise<Media[]> {
+      async findAll(): Promise<any> {
         return this.mediaModel.find().exec();
       }
 }

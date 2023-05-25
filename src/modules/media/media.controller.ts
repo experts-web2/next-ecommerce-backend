@@ -1,12 +1,11 @@
 import { Controller, Get, Post, Body } from '@nestjs/common';
 import { MediaService } from './media.service';
-import { MediaDto } from '../../dto/product/media.dto';
 
 @Controller('media')
 export class MediaController {
   constructor(private readonly mediaService: MediaService) {}
   @Post()
-  async create(@Body() createMediaDto: MediaDto) {
+  async create(@Body() createMediaDto: any) {
     return await this.mediaService.create(createMediaDto);
   }
 

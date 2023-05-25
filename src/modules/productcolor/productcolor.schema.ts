@@ -1,12 +1,13 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
-// import { ProductColor } from './productcolor.schema';
+import { Document, SchemaTypes } from 'mongoose';
 
 export type ProductColor = Color & Document;
+
 @Schema({ timestamps: true })
-export class Color  {
-  @Prop({ type: String, required: true })
+export class Color {
+  @Prop({ type: SchemaTypes.ObjectId, required: true })
   product_id: string;
+  // product_id: Types.ObjectId;
 
   @Prop({ type: String, required: true })
   color_code: string;
@@ -19,4 +20,3 @@ export class Color  {
 }
 
 export const ProductColorSchema = SchemaFactory.createForClass(Color);
-
