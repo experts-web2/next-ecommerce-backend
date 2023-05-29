@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Put,
-  Delete,
-  Body,
-  Param,
-} from '@nestjs/common';
+import { Controller, Get, Post, Delete, Body, Param } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from '../../../dto/product/product.dto';
 
@@ -18,8 +10,6 @@ export class ProductController {
   async getAllProducts(): Promise<CreateProductDto> {
     return this.productService.getAllProducts();
   }
-
-  // make a route to find the data accourding to the type of product either it is mens or woemns or kids
 
   @Get('type/:type')
   async getAllProductsByType(
@@ -52,22 +42,14 @@ export class ProductController {
     return this.productService.deleteProduct(id);
   }
 
-  @Get(':id')
+  @Get('item/:id')
   async productDetails(@Param('id') id: string): Promise<CreateProductDto> {
-    console.log('id', id);
     return this.productService.productDetails(id);
   }
+
+  @Get('brands')
+  async getAllBrands(): Promise<any> {
+    console.log('brand');
+    return this.productService.getAllBrands();
+  }
 }
-
-// @Put(':id')
-// async updateProduct(
-//   @Param('id') id: string,
-//   @Body() product: any,
-// ): Promise<any> {
-//   return this.productService.updateProduct(id, product);
-// }
-
-// @Get(':id')
-// async getProductById(@Param('id') id: string): Promise<CreateProductDto> {
-//   return this.productService.getProductById(id);
-// }

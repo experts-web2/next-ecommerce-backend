@@ -45,6 +45,9 @@ export class Variant extends Document {
 
   @Prop({ type: Number, required: true })
   quantity: number;
+
+  @Prop({type:Number,required:true})
+  size:number;
 }
 
 export const VariantSchema = SchemaFactory.createForClass(Variant);

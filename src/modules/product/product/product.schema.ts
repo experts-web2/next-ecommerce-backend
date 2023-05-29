@@ -34,6 +34,9 @@ export class Product {
 
   @Prop({ required: true })
   price_varies: boolean;
+
+  @Prop({ required: true })
+  brand: string;
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);

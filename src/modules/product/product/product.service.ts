@@ -17,7 +17,6 @@ export class ProductService {
     private variantModel: Model<Variant>,
   ) {}
 
-  // get all products
   async getAllProducts(): Promise<any> {
     return this.productModel
       .aggregate([
@@ -45,11 +44,17 @@ export class ProductService {
         price: { $lte: 2000, $gte: 1000 },
       };
     }
-    if (type == 'Kids' || type == 'Mens' || type == 'Womens') {
+    if (
+      type == 'kids' ||
+      type == 'Mens' ||
+      type == 'Womens' ||
+      type == 'Accessories'
+    ) {
       matchCondition = {
         type: type,
       };
     }
+
     return await this.productModel
       .aggregate([
         { $match: matchCondition },
@@ -136,28 +141,8 @@ export class ProductService {
       throw new Error('Internal server error');
     }
   }
-}
 
-// async updateProduct(id: string, product: any): Promise<any> {
-//   const updatedProduct = await this.productModel.findById(id).exec();
-//   if (product.name) {
-//     updatedProduct.name = product.name;
-//   }
-//   if (product.description) {
-//     updatedProduct.description = product.description;
-//   }
-//   if (product.price) {
-//     updatedProduct.price = product.price;
-//   }
-//   if (product.category) {
-//     updatedProduct.category = product.category;
-//   }
-//   // if (product.image) {
-//   //   updatedProduct.image = product.image;
-//   // }
-//   updatedProduct.updated_at = new Date();
-//   return updatedProduct.save();
-// }
-// async getProductById(id: ): Promise<CreateProductDto> {
-//   return this.productModel.findById(id).exec();
-// }
+  async getAllBrands(): Promise<any> {
+    return this.productModel.distinct('brand').exec();
+  }
+}
