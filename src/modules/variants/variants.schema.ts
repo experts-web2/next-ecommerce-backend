@@ -1,6 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, SchemaTypes } from 'mongoose';
-import { Types } from 'mongoose';
 
 @Schema({ timestamps: true })
 export class Variant extends Document {

@@ -32,42 +32,62 @@ export class ProductService {
       .exec();
   }
 
-  async filterProductsByType(type: string): Promise<any> {
-    let matchCondition = {};
-    if (type == 'all-under-rs-1000') {
-      matchCondition = {
-        price: { $lte: 1000 },
-      };
-    }
-    if (type == 'all-under-rs-2000') {
-      matchCondition = {
-        price: { $lte: 2000, $gte: 1000 },
-      };
-    }
-    if (
-      type == 'kids' ||
-      type == 'Mens' ||
-      type == 'Womens' ||
-      type == 'Accessories'
-    ) {
-      matchCondition = {
-        type: type,
-      };
-    }
-
-    return await this.productModel
+  async getAllProductsPrice(): Promise<any> {
+    return this.productModel
       .aggregate([
-        { $match: matchCondition },
         {
-          $lookup: {
-            from: 'media',
-            localField: '_id',
-            foreignField: 'product_id',
-            as: 'media',
+          $match: {
+            $or: [
+              { price: { $mod: [1000, 0] } },
+              { price: { $mod: [2000, 0] } },
+              { price: { $mod: [5000, 0] } },
+            ],
           },
         },
       ])
       .exec();
+  }
+
+  async filterProductsByType(matchCondition: any): Promise<any> {
+    const pipeline = [
+      { $match: matchCondition },
+      {
+        $lookup: {
+          from: 'media',
+          localField: '_id',
+          foreignField: 'product_id',
+          as: 'media',
+        },
+      },
+      {
+        $lookup: {
+          from: 'variants',
+          localField: '_id',
+          foreignField: 'product_id',
+          as: 'variants',
+        },
+      },
+    ];
+    const products = await this.productModel.aggregate(pipeline).exec();
+
+    const sizesSet = new Set<string>();
+    products.forEach((product: any) => {
+      product.variants.forEach((variant: any) => {
+        sizesSet.add(variant.size);
+      });
+    });
+    const sizes = [...sizesSet];
+    const brands = [...new Set(products.map((product: any) => product.brand))];
+    const types = [...new Set(products.map((product: any) => product.type))];
+
+    return {
+      products,
+      filters: {
+        sizes,
+        brands,
+        types,
+      },
+    };
   }
 
   async addProduct(product: any): Promise<any> {
@@ -144,5 +164,13 @@ export class ProductService {
 
   async getAllBrands(): Promise<any> {
     return this.productModel.distinct('brand').exec();
+  }
+
+  async getAllColors(): Promise<any> {
+    return this.productColorModel.distinct('color').exec();
+  }
+
+  async getAllSizes(): Promise<any> {
+    return this.variantModel.distinct('size').exec();
   }
 }

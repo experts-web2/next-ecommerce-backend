@@ -7,7 +7,6 @@ export type ProductColor = Color & Document;
 export class Color {
   @Prop({ type: SchemaTypes.ObjectId, required: true })
   product_id: string;
-  // product_id: Types.ObjectId;
 
   @Prop({ type: String, required: true })
   color_code: string;

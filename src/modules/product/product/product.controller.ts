@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Delete, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Body, Param, Query } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from '../../../dto/product/product.dto';
 
@@ -11,12 +11,43 @@ export class ProductController {
     return this.productService.getAllProducts();
   }
 
-  @Get('type/:type')
-  async getAllProductsByType(
-    @Param('type') type: string,
-  ): Promise<CreateProductDto> {
-    return this.productService.filterProductsByType(type);
+  @Get('price')
+  async getAllProductsPrice(): Promise<CreateProductDto> {
+    return this.productService.getAllProductsPrice();
   }
+
+  @Get('/filters')
+  async getAllProductsByFilter(
+    @Query('field') field: string,
+    @Query('value') value: string,
+  ): Promise<CreateProductDto> {
+    let matchCondition: any = {};
+    console.log("getAllProductsByType===>",field,value)
+    
+    switch (field) {
+      case 'category':
+        matchCondition = {
+          type: value,
+        };
+        break;
+      case 'brand':
+        matchCondition = {
+          brand: value,
+        };
+        break;
+      case 'price':
+        const priceValue = parseInt(value, 10);
+        matchCondition = {
+          price: { $lte: priceValue },
+        };
+        break;
+      default:
+        throw new Error('Invalid field');
+    }
+  
+    return this.productService.filterProductsByType(matchCondition);
+  }
+  
 
   @Get('category/:category')
   async getAllProductsByCategory(
@@ -49,7 +80,6 @@ export class ProductController {
 
   @Get('brands')
   async getAllBrands(): Promise<any> {
-    console.log('brand');
     return this.productService.getAllBrands();
   }
 }

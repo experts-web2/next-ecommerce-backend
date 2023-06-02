@@ -2,7 +2,6 @@ import { Controller, Get, Post, Put, Delete, Param, Body } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Color, ProductColor } from './productcolor.schema';
-import { ProductColorDto } from "../../dto/product/productcolor.dto";
 
 @Controller('productcolor')
 export class ProductcolorController {
